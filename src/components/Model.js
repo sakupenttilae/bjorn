@@ -40,8 +40,8 @@ export default function Model(props, glRef, camRef ) {
             scrollTrigger: {
               scrub: 1,
               trigger: "#myCanvas",
-              start: "top top",
-              end: "bottom bottom",
+              start: "top-=150%",
+              end: "bottom-=150%",
             },
           });
           tlPos.to(object.scene.position, {
