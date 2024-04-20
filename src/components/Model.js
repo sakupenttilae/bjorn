@@ -39,7 +39,7 @@ export default function Model(props, glRef, camRef ) {
         const tlPos = gsap.timeline({
             scrollTrigger: {
               scrub: 1,
-              trigger: "#myCanvas",
+              trigger: ".ct-div-block",
               start: "top-=150%",
               end: "bottom-=150%",
             },
