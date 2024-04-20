@@ -20,7 +20,6 @@ export default function App() {
   
   
   return (
-    <div className='canvas'>
       <Canvas
         id="myCanvas"
         gl={{ alpha:true, antialias: true }}
@@ -36,11 +35,10 @@ export default function App() {
         <directionalLight position={[0, 3, 5]} />
         <Suspense fallback={null}>
           <Environment preset='forest' />
-          <Model id="model" name={"Laatikko.glb"} onObjectLoad={getObjectRef} camRef={cameraRef} glRef={glRef}/>
+          <Model id="model" onObjectLoad={getObjectRef} camRef={cameraRef} glRef={glRef}/>
         </Suspense>
         <OrbitControls enableZoom={false} enablePan={false} />
       </Canvas>
-      </div>
   );
 }
 

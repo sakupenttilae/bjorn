@@ -8,7 +8,6 @@ import LaatikkoModel from "./lemans.glb"
 
 gsap.registerPlugin(ScrollTrigger); 
 
-
 export default function Model(props, glRef, camRef ) {
 
     const objectRef = useRef();
@@ -18,8 +17,6 @@ export default function Model(props, glRef, camRef ) {
      props.onObjectLoad(p)
     }
 
- 
-    
     useEffect(() => {
       // Preload the GLTF model if necessary
       useGLTF.preload(LaatikkoModel);
@@ -42,7 +39,7 @@ export default function Model(props, glRef, camRef ) {
         const tlPos = gsap.timeline({
             scrollTrigger: {
               scrub: 1,
-              trigger: ".canvas",
+              trigger: "#myCanvas",
               start: "top-=150%",
               end: "bottom-=150%",
             },
@@ -50,15 +47,6 @@ export default function Model(props, glRef, camRef ) {
           tlPos.to(object.scene.position, {
             x: 0,
           })
-
-          const ohjeetPos = gsap.timeline({
-            scrollTrigger: {
-              scrub: 1,
-              trigger: ".canvas",
-              start: "bottom-=145%",
-              end: "bottom-=150%"
-            },
-          });
 
           /* Move camera
           tlRot.to(cameraRef.current.position, {
