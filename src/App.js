@@ -20,25 +20,29 @@ export default function App() {
   
   
   return (
-      <Canvas
-        id="myCanvas"
-        gl={{ alpha:true, antialias: true }}
-        style={{ width: '100vw', height: '50vh' } }
-        camera={{  position: [0, 0, 4], fov: 60, near: 0.1, far: 20 }}
-        onCreated={({ gl, camera }) => {
-          glRef.current = gl; // Save gl to useRef
-          cameraRef.current = camera; // Save camera to useRef
-        }}
-        ref={canvasRef}
-      >
-        <ambientLight intensity={0.1} />
-        <directionalLight position={[0, 3, 5]} />
-        <Suspense fallback={null}>
-          <Environment preset='forest' />
-          <Model id="model" onObjectLoad={getObjectRef} camRef={cameraRef} glRef={glRef}/>
-        </Suspense>
-        <OrbitControls enableZoom={false} enablePan={false} />
-      </Canvas>
+    <>
+      <div className='myCanvas'>
+        <Canvas
+          id="myCanvas"
+          gl={{ alpha:true, antialias: true }}
+          style={{ width: '100vw', height: '50vh' } }
+          camera={{  position: [0, 0, 4], fov: 60, near: 0.1, far: 20 }}
+          onCreated={({ gl, camera }) => {
+            glRef.current = gl; // Save gl to useRef
+            cameraRef.current = camera; // Save camera to useRef
+          }}
+          ref={canvasRef}
+        >
+          <ambientLight intensity={0.1} />
+          <directionalLight position={[0, 3, 5]} />
+          <Suspense fallback={null}>
+            <Environment preset='forest' />
+            <Model id="model" onObjectLoad={getObjectRef} camRef={cameraRef} glRef={glRef}/>
+          </Suspense>
+          <OrbitControls enableZoom={false} enablePan={false} />
+        </Canvas>
+      </div>
+    </>
   );
 }
 

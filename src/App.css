@@ -1,6 +1,8 @@
-
-.canvas {
+.myCanvas {
   position: absolute;
-  top: 100%;
+  top: 100%; /* Add the margin from the top */
+  width: 100vw; /* Set the width to 100% of the viewport width */
+  height: 50vh; /* Set the height to 50% of the viewport height */
   z-index: 1;
 }
+
