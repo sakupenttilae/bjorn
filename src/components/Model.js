@@ -39,9 +39,9 @@ export default function Model(props, glRef, camRef ) {
         const tlPos = gsap.timeline({
             scrollTrigger: {
               scrub: 1,
-              trigger: "#rootp",
-              start: "top-=150%",
-              end: "bottom-=150%",
+              trigger: "#myCanvas",
+              start: "top top",
+              end: "bottom bottom",
             },
           });
           tlPos.to(object.scene.position, {
@@ -62,7 +62,7 @@ export default function Model(props, glRef, camRef ) {
             trigger.kill(); // Kill all ScrollTriggers to prevent memory leaks
           });
         };
-      }, [objectRef.current]);
+      }, []);
 
   return (
     <primitive object={object.scene} />
