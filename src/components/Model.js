@@ -46,6 +46,8 @@ export default function Model(props, glRef, camRef ) {
           });
           tlPos.to(object.scene.position, {
             x: 0,
+            onUpdate: ()=> {console.log("vitut")},
+            onComplete: ()=> {console.log("vittu")}
           })
 
           /* Move camera
