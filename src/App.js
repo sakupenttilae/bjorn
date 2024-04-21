@@ -21,11 +21,10 @@ export default function App() {
   
   return (
     <>
-      <div className='myCanvas'>
         <Canvas
           id="myCanvas"
           gl={{ alpha:true, antialias: true }}
-          style={{ width: '100vw', height: '50vh' } }
+          style={{ width: '100vw', height: '100vh' } }
           camera={{  position: [0, 0, 4], fov: 60, near: 0.1, far: 20 }}
           onCreated={({ gl, camera }) => {
             glRef.current = gl; // Save gl to useRef
@@ -41,7 +40,6 @@ export default function App() {
           </Suspense>
           <OrbitControls enableZoom={false} enablePan={false} />
         </Canvas>
-      </div>
     </>
   );
 }
