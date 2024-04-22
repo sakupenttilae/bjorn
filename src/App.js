@@ -84,6 +84,7 @@ export default function App() {
     } else {
       setHoveredObject()
       setHoveredMaterial()
+      setHoveredData(null);
     }
 
   }
@@ -99,13 +100,6 @@ useEffect(() => {
     };
   }
 }, [hoveredObject]);
-
-
-useEffect(() => {
-  return () => {
-    setHoveredData(null); // Reset hovered mesh info when mouse leaves canvas
-  };
-}, []);
 
 const formatHoveredMeshInfo = () => {
   if (!hoveredData) return null;
