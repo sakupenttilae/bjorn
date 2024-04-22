@@ -42,7 +42,7 @@ export default function Model(props, glRef, camRef ) {
       if (object.scene) {
         object.scene.position.set(0, 0.77, 0);
         object.scene.rotation.set(0.2, 1.8, 0);
-        object.scene.scale.set(0.5, 0.5, 0.5);
+        object.scene.scale.set(0.75, 0.75, 0.75);
         handleObjectRef(object.scene);
 
       }
