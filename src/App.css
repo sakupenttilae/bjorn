@@ -1,2 +1,27 @@
-
-
+.table-container {
+    max-width: 800px; /* Set maximum width */
+    margin: 0 auto; /* Center the table horizontally */
+  }
+  
+  .table {
+    width: 100%; /* Full width */
+    background-color: #0c4641;
+    border-spacing: 0;
+    text-align: center;
+  }
+  
+  th, td {
+    padding: 10px;
+    color: white;
+  }
+  
+  thead th {
+    background-color: #d29321;
+  }
+  
+  @media (max-width: 800px) {
+    .table-container {
+      max-width: 90%; /* Reduce maximum width for smaller screens */
+    }
+  }
+  

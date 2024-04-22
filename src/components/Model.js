@@ -4,9 +4,21 @@ import { gsap } from 'gsap';
 import { useGLTF } from '@react-three/drei';
 import LaatikkoModel from "./lemans.glb"
 import { useFrame } from '@react-three/fiber';
+import * as THREE from "three";
 //https://sketchfab.com/3d-models/low-poly-car-pontiac-le-mans-1971-86ec22eeceee4cd78ef10352c8d0e6d9 Model for low poly car, thanks Calipo;
 
 gsap.registerPlugin(ScrollTrigger); 
+
+const glassMaterial = new THREE.MeshPhysicalMaterial({
+  thickness: 2.5,
+  roughness: 0, // Low roughness for smooth surface
+  clearcoat: 0.1, // Clearcoat: 
+  clearcoatRoughness: 1, // Low roughness for clearcoat
+  transmission: 0.95, // High transmission for water-like transparency
+  ior: 1.5, // Set the Index of Refraction to simulate water
+  envMapIntensity: 1, // Adjust the intensity of reflections
+  side: THREE.DoubleSide // Ensure material is visible from both sides of faces
+});
 
 export default function Model(props, glRef, camRef ) {
 
@@ -24,6 +36,24 @@ export default function Model(props, glRef, camRef ) {
     useEffect(() => {
       // Preload the GLTF model if necessary
       useGLTF.preload(LaatikkoModel);
+
+      object.scene.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+            // Log the name of the mesh
+            console.log('Mesh Name:', child.name);
+            if (child.name === "Object_6") {
+              child.material.color.set("#0c4641")
+            } 
+    
+            // Log the name of the material associated with the mesh
+            if (child.material && child.material.name) {
+
+            console.log('Material Name:', child.material.name);
+
+            } else {
+            console.log('No Material Name');
+            }
+          }})
   }, [object]);
 
 

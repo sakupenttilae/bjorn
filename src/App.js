@@ -1,14 +1,23 @@
-import React, { useRef, Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Environment } from '@react-three/drei';
+import React, { useRef, Suspense, useState, useEffect } from 'react';
+import { MeshBasicMaterial, MeshPhysicalMaterial } from 'three';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
+import { Environment, useCubeCamera } from '@react-three/drei';
 import { OrbitControls } from '@react-three/drei'
+import { Vector3, Raycaster } from 'three'; 
 import Model from './components/Model';
+import { div } from 'three/examples/jsm/nodes/Nodes.js';
+
 
 
 
 
 
 export default function App() {
+
+  const raycaster = useRef(new Raycaster());
+  const [hoveredData, setHoveredData] = useState()
+  const [hoveredObject, setHoveredObject] = useState();
+  const [hoveredMaterial, setHoveredMaterial] = useState();
   const objectRef = useRef();
   const glRef = useRef();
   const canvasRef = useRef();
@@ -17,11 +26,122 @@ export default function App() {
   const getObjectRef = (object) => {
     objectRef.current = object;
   };
+
+  const meshInfo = {
+    Object_7: [
+      { name: 'Ikkunat', operations: [
+        { operation: 'Sävytys', price: '200€', detail:"& ylöspäin" },
+        { operation: 'Tuulilasin vaihto', price: '200€', detail:"& ylöspäin"}
+      ] }
+    ],
+    Object_15: [
+      { name: 'Renkaat', operations: [
+        { operation: "Renkaiden vaihto", price: "40€"},
+        { operation: "Renkaiden kumitus", price: "20€", detail:"& ylöspäin"}
+      ] }
+    ],
+    Object_6: [
+      { name: 'Runko', operations: [
+        { operation: "Ruostekorjaus", price: "50€", detail: "& ylöspäin"},
+      ] }
+    ],
+    Object_14: [
+      { name: 'Jarrut', operations: [
+        { operation: "Jarrulevyjen ja -palojen vaihto", price: "200€ akselilta", detail: "+ varaosat" },
+      ] }
+    ],
+    Object_13: [
+      { name: 'Jarrut', operations: [
+        { operation: "Jarrulevyjen ja -palojen vaihto", price: "200€ akselilta", detail: "+ varaosat" },
+      ] }
+    ],
+
+  };
+
+  const handleMouseMove = (event) => {
+    if (objectRef.current && cameraRef.current) {
+    const { clientX, clientY } = event;
+    const mouseVector = new Vector3(
+      (clientX / window.innerWidth) * 2 - 1,
+      -(clientY / window.innerHeight) * 2 + 1,
+      0.5
+    );
+    raycaster.current.setFromCamera(mouseVector, cameraRef.current);
+
+    const intersects = raycaster.current.intersectObjects(
+      objectRef.current.children,
+      true
+    );
+
+    if (intersects.length > 0) {
+      console.log('Intersected object:', intersects[0].object.name, intersects[0].object.material.name );
+
+      const hoveredObjectName = intersects[0].object.name;
+      setHoveredData(meshInfo[hoveredObjectName]);
+
+      setHoveredObject(intersects[0].object)
+      setHoveredMaterial(intersects[0].object.material)
+    } else {
+      setHoveredObject()
+      setHoveredMaterial()
+    }
+
+  }
+};
+//handle highlighting
+useEffect(() => {
+  if (hoveredObject) {
+    hoveredObject.material = new MeshPhysicalMaterial({ color: 0xd29321 }); //highlight hovered object
+    return () => {
+      if (hoveredMaterial) {
+        hoveredObject.material = hoveredMaterial;
+      }
+    };
+  }
+}, [hoveredObject]);
+
+
+useEffect(() => {
+  return () => {
+    setHoveredData(null); // Reset hovered mesh info when mouse leaves canvas
+  };
+}, []);
+
+const formatHoveredMeshInfo = () => {
+  if (!hoveredData) return null;
   
+
+  return (
+    <div className="table-container">
+      <table className='table' style={{backgroundColor: "#0c4641", borderSpacing: "0", textAlign: 'center'}}>
+      {hoveredData.map((item, index) => (
+        <React.Fragment key={index}>
+          <thead style={{backgroundColor: "#d29321", color: "#0c4641"}}>
+            <tr>
+              <th colSpan="3">{item.name}</th>
+            </tr>
+          </thead>
+          <tbody style={{backgroundColor: "#0c4641"}}>
+            {item.operations.map((operation, index) => (
+              <tr key={index} >
+                <td style={{fontWeight:"bold", color: "white", paddingRight: "1em"}}>{operation.operation}</td>
+                <td style={{color: "white"}}>{operation.price}</td>
+                <td style={{color: "white"}}>{operation.detail}</td>
+              </tr>
+            ))}
+          </tbody>
+        </React.Fragment>
+      ))}
+    </table>
+    </div>
+)
+};
+
   
   return (
     <>
-        <Canvas
+        <Canvas 
+          onMouseMove={handleMouseMove}
           id="myCanvas"
           gl={{ alpha:true, antialias: true }}
           style={{ width: '100vw', height: '100vh' } }
@@ -36,7 +156,7 @@ export default function App() {
           <directionalLight position={[0, 3, 5]} />
           <Suspense fallback={null}>
             <Environment preset='forest' />
-            <Model id="model" onObjectLoad={getObjectRef} camRef={cameraRef} glRef={glRef}/>
+            <Model id="model" onObjectLoad={getObjectRef} camRef={cameraRef} glRef={glRef} />
           </Suspense>
           <OrbitControls 
             enableZoom={false} 
@@ -46,6 +166,13 @@ export default function App() {
             enableDamping={false}
           />
         </Canvas>
+        <div style={{position: "absolute", top: 30}}>
+          {hoveredData && (
+            <div>
+              {formatHoveredMeshInfo()}
+            </div>
+          )}
+        </div>
     </>
   );
 }
