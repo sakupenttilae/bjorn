@@ -1,12 +1,8 @@
 .infoWrapper {
-    position: absolute;
-    top: 33vh;
-    left: 50vw;
-    transform: translate(-50%);
-    z-index: -1;
+  position: absolute;
+  z-index: 1;
+}
 
-  }
-
-  .table {
-    border: 1px solid #d29321;
-  }
+.disable-mouse-events {
+  pointer-events: none;
+}

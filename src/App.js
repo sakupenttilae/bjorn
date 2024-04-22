@@ -8,17 +8,13 @@ import { Vector3, Raycaster } from 'three';
 import Model from './components/Model';
 import './App.css'
 
-
-
-
-
-
 export default function App() {
 
   const raycaster = useRef(new Raycaster());
   const [hoveredData, setHoveredData] = useState()
   const [hoveredObject, setHoveredObject] = useState();
   const [hoveredMaterial, setHoveredMaterial] = useState();
+  const [infoWrapperPosition, setInfoWrapperPosition] = useState({ left: 0, top: 0 });
   const objectRef = useRef();
   const glRef = useRef();
   const canvasRef = useRef();
@@ -61,36 +57,37 @@ export default function App() {
 
   const handleMouseMove = (event) => {
     if (objectRef.current && cameraRef.current) {
-    const { clientX, clientY } = event;
-    const mouseVector = new Vector3(
-      (clientX / window.innerWidth) * 2 - 1,
-      -(clientY / window.innerHeight) * 2 + 1,
-      0.5
-    );
-    raycaster.current.setFromCamera(mouseVector, cameraRef.current);
-
-    const intersects = raycaster.current.intersectObjects(
-      objectRef.current.children,
-      true
-    );
-
-    if (intersects.length > 0) {
-      console.log('Intersected object:', intersects[0].object.name, intersects[0].object.material.name );
-
-      const hoveredObjectName = intersects[0].object.name;
-      setHoveredData(meshInfo[hoveredObjectName]);
-
-      setHoveredObject(intersects[0].object)
-      setHoveredMaterial(intersects[0].object.material)
-      //cleanup for raycast intersecting
-    } else {
-      setHoveredObject()
-      setHoveredMaterial()
-      setHoveredData(null);
+      const { clientX, clientY } = event;
+      const mouseVector = new Vector3(
+        (clientX / window.innerWidth) * 2 - 1,
+        -(clientY / window.innerHeight) * 2 + 1,
+        0.5
+      );
+      raycaster.current.setFromCamera(mouseVector, cameraRef.current);
+  
+      const intersects = raycaster.current.intersectObjects(
+        objectRef.current.children,
+        true
+      );
+  
+      if (intersects.length > 0) {
+        const hoveredObjectName = intersects[0].object.name;
+        setHoveredData(meshInfo[hoveredObjectName]);
+        setHoveredObject(intersects[0].object);
+        setHoveredMaterial(intersects[0].object.material);
+  
+        // Set position for infoWrapper based on mouse position
+        setInfoWrapperPosition({
+          left: `${clientX}px`,
+          top: `${clientY}px`,
+        });
+      } else {
+        setHoveredObject(null);
+        setHoveredMaterial(null);
+        setHoveredData(null);
+      }
     }
-
-  }
-};
+  };
 //handle highlighting
 useEffect(() => {
   if (hoveredObject) {
@@ -116,7 +113,8 @@ const formatHoveredMeshInfo = () => {
           className='table'
           style={{
             backgroundColor: "#0c4641",
-            borderSpacing: "0"
+            borderSpacing: "0",
+            boxShadow: "0 0 0 1px #bd841d",
           }}
         >
           {hoveredData.map((item, index) => (
@@ -173,12 +171,11 @@ const formatHoveredMeshInfo = () => {
           />
         </Canvas>
 
-        <div className='infoWrapper'>
-          {hoveredData && (
-            <div>
-              {formatHoveredMeshInfo()}
-            </div>
-          )}
+        <div
+          className="infoWrapper disable-mouse-events"
+          style={{ left: infoWrapperPosition.left, top: infoWrapperPosition.top }}
+        >
+          {hoveredData && <div>{formatHoveredMeshInfo()}</div>}
         </div>
     </>
   );
