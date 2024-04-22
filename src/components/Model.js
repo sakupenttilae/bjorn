@@ -11,10 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Model(props, glRef, camRef ) {
 
-    const objectRef = useRef();
     const object = useGLTF(LaatikkoModel); 
-    const [lastScrollDelta, setLastScrollDelta] = useState(-1);
-    const [useScrollRotation, setUseScrollRotation] = useState(true);
     const lastScrollDeltaRef = useRef(0);
     const previousTimeRef = useRef(0);
 
@@ -30,11 +27,11 @@ export default function Model(props, glRef, camRef ) {
         if (child instanceof THREE.Mesh) {
             // Log the name of the mesh
             console.log('Mesh Name:', child.name);
-            if (child.name === "Object_6") {
+            if (child.name === "Object_6") { 
               child.material.color.set("#0c4641")
             } 
           }})
-  }, [object]);
+      }, [object]);
 
 
   
@@ -44,42 +41,26 @@ export default function Model(props, glRef, camRef ) {
         object.scene.rotation.set(0.2, 1.8, 0);
         object.scene.scale.set(0.75, 0.75, 0.75);
         handleObjectRef(object.scene);
-
       }
     }, [props.name]);
 
-        //start spinning the bottle instantly
-        useEffect(() => {
-          updateLastScrollDelta(lastScrollDelta);
-        }, [lastScrollDelta]);
-    
-        // Function to update lastScrollDeltaRef
-        const updateLastScrollDelta = (delta) => {
-          lastScrollDeltaRef.current = delta;
-        };
-    
-        const handleMouseWheel = (event) => {
+    // Function to update lastScrollDeltaRef
+    const updateLastScrollDelta = (delta) => {
+      lastScrollDeltaRef.current = delta;
+    };
 
-          // Determine scroll direction
-          const scrollDirection = event.deltaY > 0 ? 1 : -1;
-      
-          // Update rotation of the bottle object based on scroll
-          if (object.scene) {
-            const delta = event.deltaY > 0 ? 0.01 : -0.01; // Set rotation direction based on scroll direction
-            object.scene.rotation.y += delta; // Rotate along the y-axis
-            updateLastScrollDelta(scrollDirection); // Update the last scroll delta
-          }
-      
-        };
+    const handleMouseWheel = (event) => {
+      const scrollDirection = event.deltaY > 0 ? 1 : -1; // Determine scroll direction
+      updateLastScrollDelta(scrollDirection); // Update the last scroll delta
+    };
     
-        useEffect(() => {
-          if (useScrollRotation) {
-            window.addEventListener('wheel', handleMouseWheel);
-          }
-          return () => {
-            window.removeEventListener('wheel', handleMouseWheel);
-          };
-        }, [useScrollRotation]);
+    useEffect(() => {
+      window.addEventListener('wheel', handleMouseWheel);
+      
+      return () => {
+        window.removeEventListener('wheel', handleMouseWheel);
+      };
+    }, [object]);
 
     useFrame(() => {
 
@@ -87,7 +68,7 @@ export default function Model(props, glRef, camRef ) {
       const deltaTime = (currentTime - previousTimeRef.current) / 1000;
       previousTimeRef.current = currentTime;
 
-      // Spin the bottle with a constant speed based on delta time and the last scroll delta
+      // Spin the model with a constant speed based on delta time and the last scroll delta
       if (object.scene) {
           const rotationSpeed = 0.1 * lastScrollDeltaRef.current * deltaTime;
           object.scene.rotation.y += rotationSpeed;

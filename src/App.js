@@ -107,7 +107,7 @@ const formatHoveredMeshInfo = () => {
   return (
     <AnimatePresence>
       {hoveredData && (
-        <motion.div
+        <motion.table
           key="table"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -137,7 +137,7 @@ const formatHoveredMeshInfo = () => {
               </tbody>
             </React.Fragment>
           ))}
-        </motion.div>
+        </motion.table>
       )}
     </AnimatePresence>
   );
