@@ -9,17 +9,6 @@ import * as THREE from "three";
 
 gsap.registerPlugin(ScrollTrigger); 
 
-const glassMaterial = new THREE.MeshPhysicalMaterial({
-  thickness: 2.5,
-  roughness: 0, // Low roughness for smooth surface
-  clearcoat: 0.1, // Clearcoat: 
-  clearcoatRoughness: 1, // Low roughness for clearcoat
-  transmission: 0.95, // High transmission for water-like transparency
-  ior: 1.5, // Set the Index of Refraction to simulate water
-  envMapIntensity: 1, // Adjust the intensity of reflections
-  side: THREE.DoubleSide // Ensure material is visible from both sides of faces
-});
-
 export default function Model(props, glRef, camRef ) {
 
     const objectRef = useRef();
@@ -51,7 +40,7 @@ export default function Model(props, glRef, camRef ) {
   
     useEffect(() => {
       if (object.scene) {
-        object.scene.position.set(0, 1, 0);
+        object.scene.position.set(0, 0.77, 0);
         object.scene.rotation.set(0.2, 1.8, 0);
         object.scene.scale.set(0.5, 0.5, 0.5);
         handleObjectRef(object.scene);
@@ -100,7 +89,7 @@ export default function Model(props, glRef, camRef ) {
 
       // Spin the bottle with a constant speed based on delta time and the last scroll delta
       if (object.scene) {
-          const rotationSpeed = 0.3 * lastScrollDeltaRef.current * deltaTime;
+          const rotationSpeed = 0.1 * lastScrollDeltaRef.current * deltaTime;
           object.scene.rotation.y += rotationSpeed;
       }
 
