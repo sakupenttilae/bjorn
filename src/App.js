@@ -81,6 +81,7 @@ export default function App() {
 
       setHoveredObject(intersects[0].object)
       setHoveredMaterial(intersects[0].object.material)
+      //cleanup for raycast intersecting
     } else {
       setHoveredObject()
       setHoveredMaterial()
