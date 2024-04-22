@@ -1,7 +1,8 @@
 import React, { useRef, Suspense, useState, useEffect } from 'react';
-import { MeshBasicMaterial, MeshPhysicalMaterial } from 'three';
-import { Canvas, useThree, useFrame } from '@react-three/fiber';
-import { Environment, useCubeCamera } from '@react-three/drei';
+import { motion, AnimatePresence } from "framer-motion"
+import { MeshPhysicalMaterial } from 'three';
+import { Canvas } from '@react-three/fiber';
+import { Environment} from '@react-three/drei';
 import { OrbitControls } from '@react-three/drei'
 import { Vector3, Raycaster } from 'three'; 
 import Model from './components/Model';
@@ -103,31 +104,43 @@ useEffect(() => {
 }, [hoveredObject]);
 
 const formatHoveredMeshInfo = () => {
-  if (!hoveredData) return null;
-  
-
   return (
-      <table className='table' style={{backgroundColor: "#0c4641", borderSpacing: "0"}}>
-      {hoveredData.map((item, index) => (
-        <React.Fragment key={index}>
-          <thead style={{backgroundColor: "#d29321", color: "#0c4641"}}>
-            <tr>
-              <th colSpan="3">{item.name}</th>
-            </tr>
-          </thead>
-          <tbody style={{backgroundColor: "#0c4641"}}>
-            {item.operations.map((operation, index) => (
-              <tr key={index}>
-                <td style={{fontWeight:"bold", color: "white", paddingRight: "1em"}}>{operation.operation}</td>
-                <td style={{color: "white", paddingRight: "1em"}}>{operation.price}</td>
-                <td style={{color: "white", paddingRight: "1em"}}>{operation.detail}</td>
-              </tr>
-            ))}
-          </tbody>
-        </React.Fragment>
-      ))}
-    </table>
-)
+    <AnimatePresence>
+      {hoveredData && (
+        <motion.div
+          key="table"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          exit={{ scaleX: 0 }}
+          transition={{ duration: 0.5 }}
+          className='table'
+          style={{
+            backgroundColor: "#0c4641",
+            borderSpacing: "0"
+          }}
+        >
+          {hoveredData.map((item, index) => (
+            <React.Fragment key={index}>
+              <thead style={{ backgroundColor: "#d29321", color: "#0c4641" }}>
+                <tr>
+                  <th colSpan="3">{item.name}</th>
+                </tr>
+              </thead>
+              <tbody style={{ backgroundColor: "#0c4641" }}>
+                {item.operations.map((operation, index) => (
+                  <tr key={index}>
+                    <td style={{ fontWeight: "bold", color: "white", paddingRight: "1em" }}>{operation.operation}</td>
+                    <td style={{ color: "white", paddingRight: "1em" }}>{operation.price}</td>
+                    <td style={{ color: "white", paddingRight: "1em" }}>{operation.detail}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </React.Fragment>
+          ))}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 };
 
   
