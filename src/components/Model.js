@@ -44,15 +44,6 @@ export default function Model(props, glRef, camRef ) {
             if (child.name === "Object_6") {
               child.material.color.set("#0c4641")
             } 
-    
-            // Log the name of the material associated with the mesh
-            if (child.material && child.material.name) {
-
-            console.log('Material Name:', child.material.name);
-
-            } else {
-            console.log('No Material Name');
-            }
           }})
   }, [object]);
 
