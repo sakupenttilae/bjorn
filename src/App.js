@@ -38,7 +38,13 @@ export default function App() {
             <Environment preset='forest' />
             <Model id="model" onObjectLoad={getObjectRef} camRef={cameraRef} glRef={glRef}/>
           </Suspense>
-          <OrbitControls enableZoom={false} enablePan={false} />
+          <OrbitControls 
+            enableZoom={false} 
+            enablePan={false} 
+            minPolarAngle={Math.PI / 3}
+            maxPolarAngle={Math.PI - Math.PI / 3}
+            enableDamping={false}
+          />
         </Canvas>
     </>
   );
