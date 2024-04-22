@@ -5,7 +5,7 @@ import { Environment, useCubeCamera } from '@react-three/drei';
 import { OrbitControls } from '@react-three/drei'
 import { Vector3, Raycaster } from 'three'; 
 import Model from './components/Model';
-import { div } from 'three/examples/jsm/nodes/Nodes.js';
+import './App.css'
 
 
 
@@ -112,8 +112,7 @@ const formatHoveredMeshInfo = () => {
   
 
   return (
-    <div className="table-container">
-      <table className='table' style={{backgroundColor: "#0c4641", borderSpacing: "0", textAlign: 'center'}}>
+      <table className='table' style={{backgroundColor: "#0c4641", borderSpacing: "0"}}>
       {hoveredData.map((item, index) => (
         <React.Fragment key={index}>
           <thead style={{backgroundColor: "#d29321", color: "#0c4641"}}>
@@ -123,17 +122,16 @@ const formatHoveredMeshInfo = () => {
           </thead>
           <tbody style={{backgroundColor: "#0c4641"}}>
             {item.operations.map((operation, index) => (
-              <tr key={index} >
+              <tr key={index}>
                 <td style={{fontWeight:"bold", color: "white", paddingRight: "1em"}}>{operation.operation}</td>
-                <td style={{color: "white"}}>{operation.price}</td>
-                <td style={{color: "white"}}>{operation.detail}</td>
+                <td style={{color: "white", paddingRight: "1em"}}>{operation.price}</td>
+                <td style={{color: "white", paddingRight: "1em"}}>{operation.detail}</td>
               </tr>
             ))}
           </tbody>
         </React.Fragment>
       ))}
     </table>
-    </div>
 )
 };
 
@@ -166,7 +164,8 @@ const formatHoveredMeshInfo = () => {
             enableDamping={false}
           />
         </Canvas>
-        <div style={{position: "absolute", top: 30}}>
+
+        <div className='infoWrapper'>
           {hoveredData && (
             <div>
               {formatHoveredMeshInfo()}

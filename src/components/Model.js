@@ -60,8 +60,8 @@ export default function Model(props, glRef, camRef ) {
   
     useEffect(() => {
       if (object.scene) {
-        object.scene.position.set(0, 1.5, 0);
-        object.scene.rotation.set(0.4, 1.8, 0);
+        object.scene.position.set(0, 1, 0);
+        object.scene.rotation.set(0.2, 1.8, 0);
         object.scene.scale.set(0.5, 0.5, 0.5);
         handleObjectRef(object.scene);
 
