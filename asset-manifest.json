@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/bjorn/static/css/main.64c670fa.css",
-    "main.js": "/bjorn/static/js/main.d85a9eee.js",
+    "main.js": "/bjorn/static/js/main.e1455592.js",
     "static/media/lemans.glb": "/bjorn/static/media/lemans.7ca1a39e33279f0a73fd.glb",
     "index.html": "/bjorn/index.html",
     "main.64c670fa.css.map": "/bjorn/static/css/main.64c670fa.css.map",
-    "main.d85a9eee.js.map": "/bjorn/static/js/main.d85a9eee.js.map"
+    "main.e1455592.js.map": "/bjorn/static/js/main.e1455592.js.map"
   },
   "entrypoints": [
     "static/css/main.64c670fa.css",
-    "static/js/main.d85a9eee.js"
+    "static/js/main.e1455592.js"
   ]
 }
